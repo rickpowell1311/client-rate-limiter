@@ -28,7 +28,8 @@ namespace ClientRateLimiter
             }
 
             var earliestCallTime = callTimes.OrderBy(x => x).First();
-            var untilNextCall = ReferenceTime.UtcNow.Subtract(earliestCallTime);
+            var nextCallTime = earliestCallTime.Add(TimeSpan.FromMilliseconds(TimeFrame.TotalMilliseconds));
+            var untilNextCall = nextCallTime.Subtract(ReferenceTime.UtcNow);
 
             var milliseconds = untilNextCall.TotalMilliseconds < 0 ? 0 : untilNextCall.TotalMilliseconds;
 

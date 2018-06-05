@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ClientRateLimiter
 {
@@ -10,12 +8,12 @@ namespace ClientRateLimiter
 
         public static DateTime UtcNow => _time();
 
-        public static void Override(DateTime time)
+        public static void FreezeAt(DateTime time)
         {
             _time = () => time;
         }
 
-        public static void Reset()
+        public static void Unfreeze()
         {
             _time = () => DateTime.UtcNow;
         }

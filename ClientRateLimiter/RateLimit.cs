@@ -12,6 +12,11 @@ namespace ClientRateLimiter
 
         public RateLimit(int amount, TimeSpan timeFrame)
         {
+            if (amount <= 0)
+            {
+                throw new ArgumentException("The amount in a rate limit must be a positive value");
+            }
+
             Amount = amount;
             TimeFrame = timeFrame;
         }

@@ -10,7 +10,13 @@ namespace ClientRateLimiter
     {
         private List<DateTime> _callTimes;
 
-        public IEnumerable<DateTime> CallTimes { get; }
+        public IEnumerable<DateTime> CallTimes
+        {
+            get
+            {
+                return _callTimes;
+            }
+        }
 
         public CallTracker()
         {
