@@ -19,7 +19,7 @@ namespace ClientRateLimiter.Tests
         }
 
         [Fact]
-        public void TrimToLastXCallTimes_ForZeroCalls_TrimsToEmptyList()
+        public void TrimToLastZeroCallTimes_ForMoreThanZeroCalls_TrimsToEmptyList()
         {
             var callTracker = new CallTracker();
             callTracker.CallWillHappenIn(0);
