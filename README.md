@@ -1,8 +1,8 @@
-### Client Rate Limiter ###
+## Client Rate Limiter ##
 
 Client Rate Limiter is designed to restrict the number of calls that can be made to a method within a certain time frame
 
-# Quick start
+### Quick start ###
 
 Configure a rate limiter to consider one or more rate limits:
 
