@@ -6,7 +6,7 @@
     <Title>Client Rate Limiter</Title>
     <Description>Limit the rate of calls to any method</Description>
     <PackageProjectUrl>https://github.com/rickpowell1311/client-rate-limiter</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/rickpowell1311/client-rate-limiter</PackageLicenseUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/rickpowell1311/client-rate-limiter/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/rickpowell1311/client-rate-limiter</RepositoryUrl>
   </PropertyGroup>
 
