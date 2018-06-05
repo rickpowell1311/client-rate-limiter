@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Rick Powell</Authors>
+    <Title>Client Rate Limiter</Title>
+    <Description>Limit the rate of calls to any method</Description>
+    <PackageProjectUrl>https://github.com/rickpowell1311/client-rate-limiter</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/rickpowell1311/client-rate-limiter</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/rickpowell1311/client-rate-limiter</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
