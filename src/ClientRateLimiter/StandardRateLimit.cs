@@ -10,8 +10,8 @@ namespace ClientRateLimiter
     /// </summary>
     public class StandardRateLimit : RateLimit
     {
-        public StandardRateLimit(int amount, TimeSpan timeFrame) 
-            : base(amount, timeFrame)
+        public StandardRateLimit(int amountOfCalls, TimeSpan timeFrame) 
+            : base(amountOfCalls, timeFrame)
         {
         }
 
