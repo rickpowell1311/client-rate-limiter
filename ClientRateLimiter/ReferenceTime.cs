@@ -4,18 +4,23 @@ namespace ClientRateLimiter
 {
     public static class ReferenceTime
     {
-        private static Func<DateTime> _time;
+        private static Func<DateTime> _utcDateTime;
 
-        public static DateTime UtcNow => _time();
-
-        public static void FreezeAt(DateTime time)
+        static ReferenceTime()
         {
-            _time = () => time;
+            _utcDateTime = () => DateTime.UtcNow;
+        }
+
+        public static DateTime UtcNow => _utcDateTime();
+
+        public static void FreezeAtUtc(DateTime utcDateTime)
+        {
+            _utcDateTime = () => utcDateTime;
         }
 
         public static void Unfreeze()
         {
-            _time = () => DateTime.UtcNow;
+            _utcDateTime = () => DateTime.UtcNow;
         }
     }
 }

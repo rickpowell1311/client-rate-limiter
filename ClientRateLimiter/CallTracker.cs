@@ -45,6 +45,11 @@ namespace ClientRateLimiter
         /// <param name="amount"></param>
         public void TrimToLastXCallTimes(int amount)
         {
+            if (amount < 0)
+            {
+                throw new ArgumentException("Amount of calls must be zero or a postive value");
+            }
+
             _callTimes = _callTimes
                 .OrderByDescending(x => x)
                 .Take(amount)

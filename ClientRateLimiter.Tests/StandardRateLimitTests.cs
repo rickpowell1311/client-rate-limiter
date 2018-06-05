@@ -32,7 +32,7 @@ namespace ClientRateLimiter.Tests
         public void GetNextAllowedCallTime_WhenOnePreviousCallTrackedForCurrentTime_ShouldBeNowPlusTimespanRange(int millisecondsTimespan)
         {
             var currentDate = new DateTime(2018, 01, 01);
-            ReferenceTime.FreezeAt(currentDate);
+            ReferenceTime.FreezeAtUtc(currentDate);
 
             var callTracker = new CallTracker();
             callTracker.CallWillHappenIn(0);
@@ -49,7 +49,7 @@ namespace ClientRateLimiter.Tests
         public void GetNextAllowedCallTime_WhenOnePreviousCallWasMadeMoreThanTimespanAgo_ReturnsZero(int lastCallMillisecondsAgo)
         {
             var currentDate = new DateTime(2018, 01, 01);
-            ReferenceTime.FreezeAt(currentDate);
+            ReferenceTime.FreezeAtUtc(currentDate);
 
             var callTracker = new CallTracker();
             callTracker.CallWillHappenIn(-lastCallMillisecondsAgo);
@@ -65,7 +65,7 @@ namespace ClientRateLimiter.Tests
         public void GetNextAllowedCallTime_ForTwoPreviousCalls_ReturnsCorrectTimespan()
         {
             var currentDate = new DateTime(2018, 01, 01);
-            ReferenceTime.FreezeAt(currentDate);
+            ReferenceTime.FreezeAtUtc(currentDate);
 
             var callTracker = new CallTracker();
             callTracker.CallWillHappenIn(10);
