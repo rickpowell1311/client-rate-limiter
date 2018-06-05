@@ -1,6 +1,10 @@
-### Client Rate limiter ###
+### Client Rate Limiter ###
 
-Configure a rate limiter, to consider one or more rate limits:
+Client Rate Limiter is designed to restrict the number of calls that can be made to a method within a certain time frame
+
+# Quick start
+
+Configure a rate limiter to consider one or more rate limits:
 
 ```
 var config = new RateLimiterConfiguration();
@@ -17,3 +21,5 @@ limiter.Limit(() => {});
 // or...
 await limiter.LimitAsync(() => {});
 ```
+
+The Limit method and LimitAsync Task will not return until the rate limiter rules allow for it and the method has completed
