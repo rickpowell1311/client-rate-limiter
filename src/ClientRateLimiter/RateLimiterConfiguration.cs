@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace ClientRateLimiter
 {
     public class RateLimiterConfiguration
     {
-        public RateLimit BurstRate { get; set; }
+        private List<RateLimit> _rateLimits;
 
-        public RateLimit Rate { get; set; }
-
-        public IRateLimiter Build()
+        public RateLimiterConfiguration()
         {
-            return new RateLimiter(Rate, BurstRate);
+            _rateLimits = new List<RateLimit>();
+        }
+
+        public void AddRateLimit<T>(T rateLimit) where T : RateLimit
+        {
+            _rateLimits.Add(rateLimit);
+        }
+
+        public IRateLimiter BuildRateLimiter()
+        {
+            return new RateLimiter(_rateLimits.ToArray());
         }
     }
 }

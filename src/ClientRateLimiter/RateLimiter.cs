@@ -13,6 +13,14 @@ namespace ClientRateLimiter
 
         public CallTracker CallTracker { get; }
 
+        public IEnumerable<DateTime> CallTimes
+        {
+            get
+            {
+                return CallTracker.CallTimes;
+            }
+        }
+
         public IEnumerable<RateLimit> RateLimits { get; }
 
         public RateLimiter(params RateLimit[] rateLimits)
