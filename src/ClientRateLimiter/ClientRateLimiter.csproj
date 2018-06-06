@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard1.3</TargetFramework>
     <Authors>Rick Powell</Authors>
     <Title>Client Rate Limiter</Title>
     <Description>Limit the rate of calls to any method</Description>
@@ -12,6 +12,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>latest</LangVersion>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_3</DefineConstants>
   </PropertyGroup>
 
 </Project>

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientRateLimiter", "ClientRateLimiter\ClientRateLimiter.csproj", "{B094FFAB-8550-4FB8-B0AB-5367FF24F2A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientRateLimiter", "ClientRateLimiter\ClientRateLimiter.csproj", "{B094FFAB-8550-4FB8-B0AB-5367FF24F2A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientRateLimiter.Tests", "ClientRateLimiter.Tests\ClientRateLimiter.Tests.csproj", "{D657C8D5-81BA-45E9-9111-76B48D8B6AC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientRateLimiter.Tests", "ClientRateLimiter.Tests\ClientRateLimiter.Tests.csproj", "{D657C8D5-81BA-45E9-9111-76B48D8B6AC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
