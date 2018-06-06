@@ -4,6 +4,14 @@ namespace ClientRateLimiter
 {
     public class RateLimiterConfiguration
     {
+        public static IRateLimiter Limitless
+        {
+            get
+            {
+                return new RateLimiter();
+            }
+        }
+
         private List<RateLimit> _rateLimits;
 
         public RateLimiterConfiguration()
