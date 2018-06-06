@@ -42,6 +42,8 @@ namespace ClientRateLimiter.Tests
             var nextAllowedCallTime = standardRateLimit.GetNextAllowedCallTime(callTracker);
 
             Assert.Equal(millisecondsTimespan, nextAllowedCallTime);
+
+            ReferenceTime.Unfreeze();
         }
 
         [Theory]
@@ -59,6 +61,8 @@ namespace ClientRateLimiter.Tests
             var nextAllowedCallTime = standardRateLimit.GetNextAllowedCallTime(callTracker);
 
             Assert.Equal(0, nextAllowedCallTime);
+
+            ReferenceTime.Unfreeze();
         }
 
         [Fact]
@@ -76,6 +80,8 @@ namespace ClientRateLimiter.Tests
 
             // 2 calls allowed every 100 milliseconds, so next call should be allowed in 110 milliseconds 
             Assert.Equal(110, nextAllowedCallTime);
+
+            ReferenceTime.Unfreeze();
         }
     }
 }

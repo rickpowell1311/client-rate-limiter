@@ -49,6 +49,8 @@ namespace ClientRateLimiter.Tests
 
             Assert.Single(callTracker.CallHistory);
             Assert.Equal(now.AddMilliseconds(1000), callTracker.CallHistory.Single());
+
+            ReferenceTime.Unfreeze();
         }
 
         [Fact]

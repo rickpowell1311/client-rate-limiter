@@ -60,7 +60,7 @@ namespace ClientRateLimiter.Tests
             Assert.Single(limiter.CallHistory);
         }
 
-        [Fact(Skip = "TODO: Fix so it works when run with other tests (currently only passes when run in isolation)")]
+        [Fact]
         public async Task RateLimiter_WhenOneMoreCallThanLimitMadeInTimespan_LastCallTimeIsGreaterThanTimespanAfterFirstCall()
         {
             var callTimes = new List<DateTime>();

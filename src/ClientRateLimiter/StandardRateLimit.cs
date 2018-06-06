@@ -17,17 +17,17 @@ namespace ClientRateLimiter
 
         internal override int GetNextAllowedCallTime(CallTracker callTracker)
         {
-            var callTimes = callTracker.CallHistory
+            var callHistory = callTracker.CallHistory
                 .OrderByDescending(x => x)
                 .Take(Amount)
                 .ToList();
 
-            if (!callTimes.Any())
+            if (!callHistory.Any() || callHistory.Count < Amount)
             {
                 return 0;
             }
 
-            var earliestCallTime = callTimes.OrderBy(x => x).First();
+            var earliestCallTime = callHistory.OrderBy(x => x).First();
             var nextCallTime = earliestCallTime.Add(TimeSpan.FromMilliseconds(TimeFrame.TotalMilliseconds));
             var untilNextCall = nextCallTime.Subtract(ReferenceTime.UtcNow);
 
