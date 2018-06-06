@@ -7,7 +7,7 @@ namespace ClientRateLimiter
 {
     public interface IRateLimiter
     {
-        IEnumerable<DateTime> CallTimes { get; }
+        IEnumerable<DateTime> CallHistory { get; }
 
         IEnumerable<RateLimit> RateLimits { get; }
 

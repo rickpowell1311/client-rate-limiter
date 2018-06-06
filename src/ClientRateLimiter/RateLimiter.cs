@@ -13,11 +13,11 @@ namespace ClientRateLimiter
 
         public CallTracker CallTracker { get; }
 
-        public IEnumerable<DateTime> CallTimes
+        public IEnumerable<DateTime> CallHistory
         {
             get
             {
-                return CallTracker.CallTimes;
+                return CallTracker.CallHistory;
             }
         }
 
@@ -73,6 +73,7 @@ namespace ClientRateLimiter
                         .Max(l => l.GetNextAllowedCallTime(CallTracker));
 
                     CallTracker.CallWillHappenIn(nextCallTime);
+                    CallTracker.TrimCallsForRateLimits(RateLimits);
                 }
             }
 

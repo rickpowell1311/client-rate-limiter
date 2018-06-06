@@ -17,7 +17,7 @@ namespace ClientRateLimiter.Tests
             var limiter = config.BuildRateLimiter();
             limiter.Limit(() => { });
 
-            Assert.Single(limiter.CallTimes);
+            Assert.Single(limiter.CallHistory);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace ClientRateLimiter.Tests
             var limiter = config.BuildRateLimiter();
             await limiter.LimitAsync(() => Task.CompletedTask);
 
-            Assert.Single(limiter.CallTimes);
+            Assert.Single(limiter.CallHistory);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace ClientRateLimiter.Tests
             var limiter = config.BuildRateLimiter();
             var result = limiter.Limit(returningMethod);
 
-            Assert.Single(limiter.CallTimes);
+            Assert.Single(limiter.CallHistory);
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace ClientRateLimiter.Tests
             var limiter = config.BuildRateLimiter();
             var result = await limiter.Limit(returningMethod);
 
-            Assert.Single(limiter.CallTimes);
+            Assert.Single(limiter.CallHistory);
         }
 
         [Fact(Skip = "TODO: Fix so it works when run with other tests (currently only passes when run in isolation)")]

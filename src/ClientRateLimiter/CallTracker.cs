@@ -8,19 +8,19 @@ namespace ClientRateLimiter
 {
     internal class CallTracker
     {
-        private List<DateTime> _callTimes;
+        private List<DateTime> _callHistory;
 
-        public IEnumerable<DateTime> CallTimes
+        public IEnumerable<DateTime> CallHistory
         {
             get
             {
-                return _callTimes;
+                return _callHistory;
             }
         }
 
         public CallTracker()
         {
-            _callTimes = new List<DateTime>();
+            _callHistory = new List<DateTime>();
         }
 
         /// <summary>
@@ -29,31 +29,44 @@ namespace ClientRateLimiter
         /// <param name="milliseconds"></param>
         public void CallWillHappenIn(double milliseconds)
         {
-            _callTimes.Add(ReferenceTime.UtcNow.AddMilliseconds(milliseconds));
-        }
-
-        public IEnumerable<DateTime> GetLastXCallTimes(int amount)
-        {
-            return _callTimes
-                .OrderByDescending(x => x)
-                .Take(amount);
+            _callHistory.Add(ReferenceTime.UtcNow.AddMilliseconds(milliseconds));
         }
 
         /// <summary>
-        /// Will remove all calls except the most recent, indicated by the amount of calls that should be kept
+        /// Will trim down the number of calls in the tracker to the amount required by these rate limits
         /// </summary>
-        /// <param name="amount"></param>
-        public void TrimToLastXCallTimes(int amount)
+        /// <param name="rateLimits"></param>
+        public void TrimCallsForRateLimits(params RateLimit[] rateLimits)
+        {
+            TrimCallsForRateLimits(rateLimits.AsEnumerable());
+        }
+
+        /// <summary>
+        /// Will trim down the number of calls in the tracker to the amount required by these rate limits
+        /// </summary>
+        /// <param name="rateLimits"></param>
+        public void TrimCallsForRateLimits(IEnumerable<RateLimit> rateLimits)
+        {
+            if (!rateLimits.Any())
+            {
+                return;
+            }
+
+            var numberOfCallsToKeep = rateLimits.Max(rl => rl.Amount);
+            TrimToMostRecentCalls(numberOfCallsToKeep);
+        }
+
+        private void TrimToMostRecentCalls(int amount)
         {
             if (amount < 0)
             {
                 throw new ArgumentException("Amount of calls must be zero or a postive value");
             }
 
-            _callTimes = _callTimes
-                .OrderByDescending(x => x)
-                .Take(amount)
-                .ToList();
+            _callHistory = _callHistory
+               .OrderByDescending(x => x)
+               .Take(amount)
+               .ToList();
         }
     }
 }

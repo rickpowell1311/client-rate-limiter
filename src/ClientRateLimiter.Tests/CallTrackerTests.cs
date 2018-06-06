@@ -8,41 +8,63 @@ namespace ClientRateLimiter.Tests
 {
     public class CallTrackerTests
     {
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(-2)]
-        public void TrimToLastXCallTimes_ForNegativeNumberOfCalls_ThrowsArgumentException(int numberOfCalls)
+        [Fact]
+        public void TrimCallsForRateLimits_ForNoRateLimits_KeepsAllCalls()
         {
             var callTracker = new CallTracker();
+            callTracker.CallWillHappenIn(200);
+            callTracker.TrimCallsForRateLimits();
 
-            Assert.Throws<ArgumentException>(() => callTracker.TrimToLastXCallTimes(numberOfCalls));
+            Assert.Single(callTracker.CallHistory);
         }
 
         [Fact]
-        public void TrimToLastZeroCallTimes_ForMoreThanZeroCalls_TrimsToEmptyList()
+        public void TrimCallsForRateLimits_ForOneRateLimit_TrimsToRateLimitAmount()
         {
             var callTracker = new CallTracker();
             callTracker.CallWillHappenIn(0);
+            callTracker.CallWillHappenIn(100);
+            callTracker.CallWillHappenIn(200);
 
-            callTracker.TrimToLastXCallTimes(0);
+            var rateLimit = new StandardRateLimit(2, TimeSpan.FromSeconds(1));
 
-            Assert.Empty(callTracker.CallTimes);
+            callTracker.TrimCallsForRateLimits(rateLimit);
+
+            Assert.Equal(2, callTracker.CallHistory.Count());
         }
 
         [Fact]
-        public void TrimToLast1CallTimes_When2CallsExist_ReturnsMostRecentCallTime()
+        public void TrimCallsForRateLimits_ForOneRateLimit_KeepsTheMostRecentCalls()
         {
             var now = new DateTime(2018, 01, 01);
             ReferenceTime.FreezeAtUtc(now);
 
             var callTracker = new CallTracker();
+            callTracker.CallWillHappenIn(0);
+            callTracker.CallWillHappenIn(1000);
+
+            var rateLimit = new StandardRateLimit(1, TimeSpan.FromSeconds(1));
+
+            callTracker.TrimCallsForRateLimits(rateLimit);
+
+            Assert.Single(callTracker.CallHistory);
+            Assert.Equal(now.AddMilliseconds(1000), callTracker.CallHistory.Single());
+        }
+
+        [Fact]
+        public void TrimCallsForRateLimits_ForTwoRateLimits_TrimsToMaximumRateLimitAmount()
+        {
+            var callTracker = new CallTracker();
+            callTracker.CallWillHappenIn(0);
+            callTracker.CallWillHappenIn(100);
             callTracker.CallWillHappenIn(200);
-            callTracker.CallWillHappenIn(300);
 
-            callTracker.TrimToLastXCallTimes(1);
+            var firstRateLimit = new StandardRateLimit(1, TimeSpan.FromSeconds(1));
+            var secondRateLimit = new StandardRateLimit(2, TimeSpan.FromSeconds(1));
 
-            Assert.Single(callTracker.CallTimes);
-            Assert.Equal(callTracker.CallTimes.Single(), now.AddMilliseconds(300));
+            callTracker.TrimCallsForRateLimits(firstRateLimit, secondRateLimit);
+
+            Assert.Equal(2, callTracker.CallHistory.Count());
         }
     }
 }
