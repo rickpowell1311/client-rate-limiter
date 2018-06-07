@@ -23,6 +23,20 @@ namespace ClientRateLimiter
 
         public IEnumerable<RateLimit> RateLimits { get; }
 
+        public bool HasReachedLimit
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    var nextCallTime = RateLimits
+                        .Max(l => l.GetNextAllowedCallTime(CallTracker));
+
+                    return nextCallTime > 0;
+                }
+            }
+        }
+
         public RateLimiter(params RateLimit[] rateLimits)
         {
             RateLimits = rateLimits.ToList();
@@ -37,27 +51,33 @@ namespace ClientRateLimiter
 
         public void Limit(Action limitedCall)
         {
-            Task.Delay(GetNextCallTime()).Wait();
+            var nextCallTime = GetNextCallTime();
 
+            Task.Delay(nextCallTime).Wait();
             limitedCall();
         }
 
         public T Limit<T>(Func<T> limitedCall)
         {
-            Task.Delay(GetNextCallTime()).Wait();
+            var nextCallTime = GetNextCallTime();
 
+            Task.Delay(nextCallTime).Wait();
             return limitedCall();
         }
 
         public async Task LimitAsync(Func<Task> limitedCall)
         {
-            await Task.Delay(GetNextCallTime());
+            var nextCallTime = GetNextCallTime();
+
+            await Task.Delay(nextCallTime);
             await limitedCall();
         }
 
         public async Task<T> LimitAsync<T>(Func<Task<T>> limitedCall)
         {
-            await Task.Delay(GetNextCallTime());
+            var nextCallTime = GetNextCallTime();
+
+            await Task.Delay(nextCallTime);
             return await limitedCall();
         }
 

@@ -11,6 +11,8 @@ namespace ClientRateLimiter
 
         IEnumerable<RateLimit> RateLimits { get; }
 
+        bool HasReachedLimit { get; }
+
         void Limit(Action limitedCall);
 
         T Limit<T>(Func<T> limitedCall);

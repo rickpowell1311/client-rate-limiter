@@ -71,7 +71,7 @@ namespace ClientRateLimiter.Tests
                 return Task.CompletedTask;
             };
 
-            var rateLimitTimespan = TimeSpan.FromMilliseconds(500);
+            var rateLimitTimespan = TimeSpan.FromMilliseconds(200);
 
             var config = new RateLimiterConfiguration();
             config.AddRateLimit(new StandardRateLimit(3, rateLimitTimespan));
@@ -94,6 +94,39 @@ namespace ClientRateLimiter.Tests
             Assert.True(
                 elapsedTimeBetweenFirstAndLastCall.TotalMilliseconds > rateLimitTimespan.TotalMilliseconds, 
                 $"Time between first and last call should be at least {rateLimitTimespan.TotalMilliseconds} milliseconds but was '{elapsedTimeBetweenFirstAndLastCall.TotalMilliseconds}' milliseconds");
+        }
+
+        [Fact]
+        public async Task RateLimiter_WhenOneMoreCallThanLimitMadeInTimespan_SaysReachedLimitOnce()
+        {
+            var config = new RateLimiterConfiguration();
+            config.AddRateLimit(new StandardRateLimit(3, TimeSpan.FromMilliseconds(200)));
+
+            var limiter = config.BuildRateLimiter();
+
+            var timesLimitReached = 0;
+
+            Func<Task> callLogger = () =>
+            {
+                if (limiter.HasReachedLimit)
+                {
+                    timesLimitReached++;
+                }
+
+                return Task.CompletedTask;
+            };
+
+            var rateLimitTimespan = TimeSpan.FromMilliseconds(500);
+
+            await Task.WhenAll(new List<Task>
+            {
+                limiter.LimitAsync(callLogger),
+                limiter.LimitAsync(callLogger),
+                limiter.LimitAsync(callLogger),
+                limiter.LimitAsync(callLogger)
+            });
+
+            Assert.Equal(1, timesLimitReached);
         }
     }
 }
